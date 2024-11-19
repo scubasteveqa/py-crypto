@@ -1,4 +1,4 @@
-from shiny import App, ui, reactive
+from shiny import App, ui, reactive, render
 from cryptography.fernet import Fernet
 
 # Generate a key (only once, store it securely)
@@ -15,7 +15,7 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
     @output
-    @reactive.Calc
+    @render.text
     def encrypted_text():
         text = input.text_to_encrypt()
         if text:
@@ -23,7 +23,7 @@ def server(input, output, session):
         return "Enter text to see encryption."
 
     @output
-    @reactive.Calc
+    @render.text
     def decrypted_text():
         encrypted = input.text_to_decrypt()
         if encrypted:
